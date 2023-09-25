@@ -4,7 +4,8 @@ from api_key import apikey
 from langchain.llms import OpenAI
 import os
 
-os.environ['OPENAI_API_KEY'] = apikey
+#os.environ['OPENAI_API_KEY'] = apikey
+openai.api_key = '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'
 
 llm = OpenAI()
 
