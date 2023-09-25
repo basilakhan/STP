@@ -1,34 +1,32 @@
-# Import the necessary packages
 import streamlit as st
-import openai
-#from api_key import apikey
-from langchain.llms import OpenAI
-import os
-
-#os.environ['OPENAI_API_KEY'] = apikey
-#openai.api_key = os.getenv('OPENAI_API_KEY')
-openai.api_key = os.environ['OPENAI_API_KEY']
-
-llm = OpenAI()
-
-# Create a Streamlit sidebar
-st.sidebar.title('Real-Time Sentiment Analysis')
-
-# Allow the user to upload a text file
-uploaded_file = st.sidebar.file_uploader('Upload your text file', type='txt')
-
-# Define a function to call the GPT-3 API and analyze sentiment
-def analyze_sentiment(text):
-    response = llm(
-        f'This is a sentiment analysis request. What is the sentiment of the following text, and why?\n\n"{text}"\n\nSentiment: {{sentiment}}, Justification: {{justification}}')
-    return response
-
-
-if uploaded_file is not None:
-    text = uploaded_file.read().decode('utf-8')
-
-    # Analyze the sentiment of the whole text
-    sentiment_and_explanation = analyze_sentiment(text)
-
-    # Display the sentiment analysis and explanation
-    st.write(f'Sentiment Analysis and Explanation: {sentiment_and_explanation}')
+from textblob import TextBlob
+  
+  
+from streamlit_extras.let_it_rain import rain
+  
+st.title("A Simple Sentiment Analysis WebApp.")
+  
+message = st.text_area("Please Enter your text")
+  
+if st.button("Analyze the Sentiment"):
+  blob = TextBlob(message)
+  result = blob.sentiment
+  polarity = result.polarity
+  subjectivity = result.subjectivity
+  if polarity < 0:
+    st.warning("The entered text has negative sentiments associated with it"+str(polarity))
+    rain(
+    emoji="????",
+    font_size=20,  # the size of emoji
+    falling_speed=3,  # speed of raining
+    animation_length="infinite",  # for how much time the animation will happen
+)
+  if polarity >= 0:
+    st.success("The entered text has positive sentiments associated with it."+str(polarity))
+    rain(
+    emoji="????",
+    font_size=20,  # the size of emoji
+    falling_speed=3,  # speed of raining
+    animation_length="infinite",  # for how much time the animation will happen
+    )
+  st.success(result)
