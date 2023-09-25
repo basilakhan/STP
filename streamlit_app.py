@@ -1,3 +1,4 @@
+pip install openai
 # Import the necessary packages
 import streamlit as st
 import openai
@@ -6,7 +7,8 @@ from langchain.llms import OpenAI
 import os
 
 #os.environ['OPENAI_API_KEY'] = apikey
-openai.api_key = os.getenv('OPENAI_API_KEY')
+#openai.api_key = os.getenv('OPENAI_API_KEY')
+openai.api_key = os.environ['OPENAI_API_KEY']
 
 llm = OpenAI()
 
